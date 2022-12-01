@@ -1,17 +1,15 @@
-<script setup lang="ts">
-import { login, signup } from '@/services/axios/llamadasUsuarios';
+<script lang="ts" setup>
+import { login } from '@/services/axios/llamadasUsuarios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter()
+const router = useRouter();
 
-const nombre = ref('');
 const email = ref('');
 const contraseña = ref('');
 
 const handleSubmit = async (e: any) => {
-    e.preventDefault()
-    await signup(nombre.value, email.value, contraseña.value);
+    e.preventDefault();
     const usuario = await login(email.value, contraseña.value)
     if(usuario){
         localStorage.setItem('usuario', usuario.data.token);
@@ -21,9 +19,8 @@ const handleSubmit = async (e: any) => {
 </script>
 
 <template>
-    <h2>Sign Up</h2>
+    <h2>Login</h2>
     <form @submit="handleSubmit">
-        <input type="text" name="nombre" placeholder="Nombre" v-model="nombre">
         <input type="text" name="email" placeholder="Email" v-model="email">
         <input type="password" name="contraseña" placeholder="Contraseña" v-model="contraseña">
         <button type="submit">Enviar</button>
