@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { listaProductosUsuario } from '@/services/axios/llamadasProductos';
-import { perfil } from '@/services/axios/llamadasUsuarios';
+import { crearProducto, listaProductosUsuario } from '@/services/axios/llamadasProductos';
+import { perfil, perfilUsuario } from '@/services/axios/llamadasUsuarios';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -10,15 +10,70 @@ const route = useRoute();
 const id = route.params.id
 
 const usuario = ref()
+const usuarioProductos = ref()
 const productos = ref()
-perfil(id).then(res => usuario.value = res.data);
+
+const nombreProducto = ref('')
+const cantidadProducto = ref(1)
+const precioProducto = ref(0)
+
+const toggleAñadirProducto = ref(false)
+
+perfilUsuario().then(res => usuario.value = res.data)
+perfil(id).then(res => usuarioProductos.value = res.data);
 listaProductosUsuario(id).then(res => productos.value = res.data)
+
+const handleCantidadMas = () => {
+    cantidadProducto.value++
+}
+
+const handleCantidadMenos = () => {
+    if(cantidadProducto.value < 2) return
+    cantidadProducto.value--
+}
+
+const handleToggleAñadirProducto = () => {
+    if(toggleAñadirProducto.value){
+        toggleAñadirProducto.value = false
+    } else {
+        toggleAñadirProducto.value = true
+    }
+}
+
+const handleCrear = () => {
+    crearProducto(nombreProducto.value, cantidadProducto.value, precioProducto.value).then(() => window.location.href = '/productosUsuario/' + usuarioProductos.value.id )
+}
 
 </script>
 
 <template>
-    <div v-if="(usuario || productos)">
-        <h2 id="titulo">Productos de {{usuario?.nombre}}</h2>
+    <div v-if="(usuarioProductos || productos)">
+        <h2 id="titulo">Productos de {{usuarioProductos?.nombre}}</h2>
+        <div v-if="(usuarioProductos?.id === usuario?.id)">
+            <div id="botonCrear"  v-if="!toggleAñadirProducto"><button @click="handleToggleAñadirProducto">+ Añadir Producto</button></div>
+            <div id="cajaOpcionesProducto" v-else>
+                <div id="opcionesProducto">
+                    <div class="cantidad">
+                        <h2>Nombre: </h2>
+                        <input id="nombreInput" type="text" name="nombreProducto" placeholder="Nombre Producto" v-model="nombreProducto">
+                    </div>
+                    <div class="cantidad">
+                        <h2>Cantidad</h2>
+                        <button @click="handleCantidadMenos">-</button>
+                        <h2 id="cantidadValue">{{cantidadProducto}}</h2>
+                        <button @click="handleCantidadMas">+</button>
+                        <h2>📦</h2>
+                    </div>
+                    <div class="cantidad">
+                        <h2>Precio: </h2>
+                        <input id="precioInput" type="number" name="precioProducto" v-model="precioProducto">
+                        <h2>🪙</h2>
+                    </div>
+                </div>
+
+                <div id="botonCrear"><button @click="handleCrear">Crear</button></div>
+            </div>
+        </div>
         <h2 v-if="(productos?.length < 1)">Este usuario no tiene ningún producto.</h2>
         <ul id="listaProductosUsuario" v-else>
             <li class="productos">
@@ -42,6 +97,11 @@ listaProductosUsuario(id).then(res => productos.value = res.data)
 </template>
 
 <style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 a{
     text-decoration: none;
     color: black;
@@ -50,6 +110,87 @@ a{
     font-size: 3em;
 }
 
+#cajaOpcionesProducto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#opcionesProducto{
+    display: flex;
+    flex-direction: row;
+}
+
+.cantidad{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: start;
+    height: 30px;
+    border: solid rgb(124, 114, 143) 2px;
+    border-radius: 50px;
+    background-color: rgb(161, 144, 188);
+    padding: 5px;
+    margin: 0 10px;
+    width: fit-content;
+}
+
+    .cantidad button{
+        border: none;
+        cursor: pointer;
+    }
+    .cantidad h2, .cantidad button{
+        margin: 0 5px;
+        font-size: 1.5em;
+        background-color: rgb(161, 144, 188);
+        color: white;
+    }
+
+#nombreInput{
+    background: none;
+    border: none;
+    color: white;
+    width: 50%;
+    /* font-weight: bolder; */
+}
+    #nombreInput::placeholder{
+        color: rgb(220, 220, 220);
+    }
+    #nombreInput:focus{
+        outline: none;
+        border: none;
+    }
+
+#precioInput{
+    background: none;
+    border: none;
+    color: white;
+    width: 40%;
+    text-align: center;
+}
+
+    #precioInput:focus{
+        outline: none;
+        border: none;
+    }
+
+#botonCrear button{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: start;
+    height: 30px;
+    border: solid rgb(124, 114, 143) 2px;
+    border-radius: 50px;
+    background-color: rgb(161, 144, 188);
+    color: white;
+    font-weight: bolder;
+    font-size: 1em;
+    padding: 15px;
+    margin: 0 10px;
+    width: fit-content;
+    cursor: pointer;
+}
 #listaProductosUsuario{
     list-style: none;
     padding: 0;

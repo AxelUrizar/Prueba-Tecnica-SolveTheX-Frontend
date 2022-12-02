@@ -4,7 +4,7 @@ import authHeader from './auth-header';
 const API_URL: string = 'http://localhost:4000/productos/';
 
 export const crearProducto = (nombre: any, cantidad: any, precio: any) => {
-    return axios.post(API_URL + 'crearProducto', {nombre, cantidad, precio})
+    return axios.post(API_URL + 'crearProducto', {nombre, cantidad, precio}, {headers: authHeader()})
 };
 
 export const listaProductos = () => {
@@ -27,7 +27,7 @@ export const modificarProducto = (id: number, data: any) => {
     return axios.put(API_URL + `modificar/${id}`, {data}, {headers: authHeader()})
 }
 
-export const comprarProducto = (id: number, cantidad: number) => {
+export const comprarProducto = (id: any, cantidad: number) => {
     return axios.put(API_URL + `comprarProducto/${id}`, {cantidad}, {headers: authHeader()})
 }
 

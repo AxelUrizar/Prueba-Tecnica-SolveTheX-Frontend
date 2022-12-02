@@ -12,7 +12,8 @@ perfilUsuario().then(res => usuario.value = res.data)
 
 <template>
     <div id="home" v-if="productos">
-        <h2>Productos en venta</h2>
+        <h2 class="titulo">Productos en venta</h2>
+        <p>(No se muestran tus productos en venta)</p>
         <h2 v-if="(productos?.length < 1)">Este usuario no tiene ningún producto.</h2>
         <div id="cajaListaProductos" v-else>
             <ul id="listaProductos" >
@@ -23,7 +24,7 @@ perfilUsuario().then(res => usuario.value = res.data)
                 </li>
                 <hr />
                 <RouterLink v-for="producto in productos" :to="{path: `/detallesProducto/${producto.id}`}">
-                    <li class="productos productosHover">
+                    <li v-if="(producto.id_usuario !== usuario?.id)" class="productos productosHover">
                         <h2>{{producto.nombre}}</h2>
                         <h2>{{producto.cantidad}} </h2>
                         <h2>{{producto.precio}}🪙</h2>
@@ -46,6 +47,10 @@ a{
 
 li{
     color: black;
+}
+
+.titulo{
+    font-size: 3em;
 }
 
 #cajaListaProductos{
