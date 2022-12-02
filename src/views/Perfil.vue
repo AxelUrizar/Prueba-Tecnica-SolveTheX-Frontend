@@ -29,8 +29,10 @@ const handleLogout = () => {
         <div id="perfil" v-if="usuarioPerfil">
             <img src="../assets/foto-perfil.jpg" alt="foto-perfil" id="fotoPerfil">
             <div id="datosUsuario">
-                <h2>Perfil de {{usuarioPerfil.nombre}}</h2>
-                <h3>Dinero: {{usuarioPerfil.monedas}}🪙</h3>
+                <h2 id="titulo">Perfil de {{usuarioPerfil.nombre}}</h2>
+                <h2>Dinero: {{usuarioPerfil.monedas}}🪙</h2>
+                <h2>Productos: {{objetos?.length}} 📦</h2>
+                <RouterLink :to="{path: `/productosUsuario/${usuarioPerfil.id}`}"><button>Ver los productos de {{usuarioPerfil.nombre}}</button></RouterLink>
             </div>
             <div id="botonesPerfil" v-if="(usuarioPerfil?.id === usuario?.id)">
                 <button @click="handleLogout">Logout</button>
@@ -41,6 +43,9 @@ const handleLogout = () => {
 </template>
 
 <style>
+#titulo{
+    font-size: 3em;
+}
 #perfil{
     display: flex;
     justify-content: space-evenly;
@@ -63,21 +68,21 @@ const handleLogout = () => {
     display: flex;
     flex-direction: column;
 }
-    #botonesPerfil  button{
-        border-radius: 20px;
-        border: solid 2px rgb(124, 114, 143);
-        padding: 8px 10px;
-        margin: 10px 0;
-        cursor: pointer;
-        background-color: rgb(161, 144, 188);
-        color: white;
-        font-weight: bolder;
-        transition: all ease-in-out 200ms;
-    }
+button{
+    border-radius: 20px;
+    border: solid 2px rgb(124, 114, 143);
+    padding: 8px 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    background-color: rgb(161, 144, 188);
+    color: white;
+    font-weight: bolder;
+    transition: all ease-in-out 200ms;
+}
 
-    #botonesPerfil button:hover{
-        color: rgb(161, 144, 188);
-        background-color: white;
-    }
+button:hover{
+    color: rgb(161, 144, 188);
+    background-color: white;
+}
 </style>
 

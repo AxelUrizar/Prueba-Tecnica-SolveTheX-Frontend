@@ -11,8 +11,16 @@ export const listaProductos = () => {
     return axios.get(API_URL + 'listaProductos');
 };
 
+export const listaProductosEnVenta = () => {
+    return axios.get(API_URL + 'listaProductosEnVenta');
+};
+
 export const listaProductosUsuario = (id_usuario: any) => {
     return axios.get(API_URL + `listaProductos/${id_usuario}`)
+}
+
+export const detallesProducto = (id: any) => {
+    return axios.get(API_URL + `detallesProducto/${id}`)
 }
 
 export const modificarProducto = (id: number, data: any) => {
