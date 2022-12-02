@@ -22,6 +22,16 @@ const router = createRouter({
       path: '/perfil/:id',
       name: 'perfil',
       component: () => import('@/views/Perfil.vue')
+    },
+    {
+      path: '/editarPerfil/:id',
+      name: 'editarPerfil',
+      component: () => import('@/views/EditarPerfil.vue')
+    },
+    {
+      path: '/productosUsuario/:id',
+      name: 'productosUsuario',
+      component: () => import('@/views/ProductosUsuario.vue')
     }
   ]
 })

@@ -23,8 +23,8 @@ export const perfil = (id: any) => {
     return axios.get(API_URL + `perfil/${id}`);
 };
 
-export const editarUsuario = (data: any) => {
-    return axios.put(API_URL + 'editarUsuario', {data}, {headers: authHeader()});
+export const editarUsuario = (nombre: any) => {
+    return axios.put(API_URL + 'editarUsuario', {nombre}, {headers: authHeader()});
 };
 
 export const borrarUsuario = () => {
