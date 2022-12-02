@@ -35,3 +35,25 @@ const handleSubmit = async (e: any) => {
         <RouterLink :to="{name: 'home'}">Volver atrás</RouterLink>
     </div>
 </template>
+
+<style>
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+    form input{
+        margin: 10px 0;
+        border-radius: 20px;
+        padding: 8px;
+    }
+
+    form button{
+        margin: 10px 0;
+        width: fit-content;
+        align-self: center;
+        border-radius: 20px;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+</style>

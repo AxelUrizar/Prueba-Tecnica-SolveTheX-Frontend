@@ -1,7 +1,7 @@
 export default function authHeader() {
-    const user = localStorage.getItem('user');
-    if (user) {
-      return { Authorization: user };
+    const usuario = localStorage.getItem('usuario');
+    if (usuario) {
+      return { Authorization: usuario };
     } else {
       return {};
     }

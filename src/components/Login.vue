@@ -65,5 +65,6 @@ form{
         align-self: center;
         border-radius: 20px;
         padding: 6px 10px;
+        cursor: pointer;
     }
 </style>

@@ -15,6 +15,10 @@ export const logout = () => {
     return axios.delete(API_URL + 'logout', {headers: authHeader()});
 };
 
+export const perfilUsuario = () => {
+    return axios.get(API_URL + 'perfil', {headers: authHeader()})
+}
+
 export const perfil = (id: any) => {
     return axios.get(API_URL + `perfil/${id}`);
 };
